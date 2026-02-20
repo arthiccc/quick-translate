@@ -1,0 +1,231 @@
+.qt-overlay {
+  position: absolute;
+  z-index: 2147483647;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 14px;
+  max-width: 350px;
+  min-width: 200px;
+  animation: qt-fadeIn 0.2s ease;
+}
+
+.qt-overlay * {
+  box-sizing: border-box;
+}
+
+.qt-loading {
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.qt-spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #e0e0e0;
+  border-top-color: #4285f4;
+  border-radius: 50%;
+  animation: qt-spin 0.8s linear infinite;
+}
+
+.qt-overlay-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background: #f5f5f5;
+  border-radius: 8px 8px 0 0;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.qt-lang-badge {
+  font-size: 11px;
+  font-weight: 600;
+  color: #666;
+  background: #e0e0e0;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.qt-close-btn {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: #666;
+  padding: 0;
+  line-height: 1;
+}
+
+.qt-close-btn:hover {
+  color: #333;
+}
+
+.qt-overlay-body {
+  padding: 12px;
+  line-height: 1.5;
+  color: #333;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.qt-overlay-footer {
+  padding: 8px 12px;
+  border-top: 1px solid #e0e0e0;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.qt-copy-btn {
+  background: #4285f4;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.qt-copy-btn:hover {
+  background: #3367d6;
+}
+
+.qt-error {
+  padding: 16px;
+  text-align: center;
+}
+
+.qt-error-icon {
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+
+.qt-error-message {
+  color: #d32f2f;
+  margin-bottom: 12px;
+}
+
+.qt-tooltip {
+  position: absolute;
+  z-index: 2147483647;
+  background: #fff;
+  border-radius: 6px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 13px;
+  max-width: 300px;
+  padding: 10px 12px;
+  display: none;
+  animation: qt-fadeIn 0.15s ease;
+}
+
+.qt-tooltip-content {
+  line-height: 1.5;
+  color: #333;
+}
+
+.qt-tooltip-lang {
+  font-size: 10px;
+  color: #888;
+  margin-top: 6px;
+  text-transform: uppercase;
+}
+
+.qt-page-loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2147483647;
+  background: rgba(66, 133, 244, 0.95);
+  padding: 10px 20px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 13px;
+  color: white;
+}
+
+.qt-page-progress {
+  height: 3px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
+  margin-bottom: 8px;
+}
+
+.qt-page-progress-bar {
+  height: 100%;
+  background: white;
+  border-radius: 2px;
+  width: 0%;
+  transition: width 0.2s;
+}
+
+.qt-page-status {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.qt-page-count {
+  font-weight: 600;
+}
+
+.qt-restore-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 2147483647;
+  background: #4285f4;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 20px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(66, 133, 244, 0.4);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.qt-restore-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(66, 133, 244, 0.5);
+}
+
+.qt-bilingual-wrapper {
+  display: inline;
+}
+
+.qt-original {
+  opacity: 0.5;
+  text-decoration: line-through;
+  margin-right: 4px;
+}
+
+.qt-translated {
+  color: #4285f4;
+  font-weight: 500;
+}
+
+@keyframes qt-fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes qt-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

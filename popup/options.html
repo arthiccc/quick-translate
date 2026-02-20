@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 14px;
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 24px;
+      background: #fff;
+      color: #333;
+    }
+    
+    h1 {
+      font-size: 20px;
+      margin-bottom: 8px;
+    }
+    
+    p {
+      color: #666;
+      margin-bottom: 24px;
+    }
+    
+    .setting {
+      margin-bottom: 20px;
+    }
+    
+    .setting label {
+      display: block;
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+    
+    .setting select,
+    .setting input[type="number"] {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+    
+    .setting select:focus,
+    .setting input:focus {
+      outline: none;
+      border-color: #4285f4;
+    }
+    
+    .toggle-setting {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .toggle-setting:last-child {
+      border-bottom: none;
+    }
+    
+    .toggle {
+      position: relative;
+      width: 48px;
+      height: 26px;
+    }
+    
+    .toggle input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: #ccc;
+      border-radius: 26px;
+      transition: 0.2s;
+    }
+    
+    .toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 20px;
+      width: 20px;
+      left: 3px;
+      bottom: 3px;
+      background: white;
+      border-radius: 50%;
+      transition: 0.2s;
+    }
+    
+    .toggle input:checked + .toggle-slider {
+      background: #4285f4;
+    }
+    
+    .toggle input:checked + .toggle-slider:before {
+      transform: translateX(22px);
+    }
+    
+    .hint {
+      font-size: 12px;
+      color: #888;
+      margin-top: 4px;
+    }
+    
+    .section {
+      background: #f9f9f9;
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 20px;
+    }
+    
+    .section h2 {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    
+    .saved {
+      color: #2e7d32;
+      font-size: 12px;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    
+    .saved.show {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <h1>Quick Translate Settings</h1>
+  <p>Configure your translation preferences</p>
+  
+  <div class="section">
+    <h2>Language</h2>
+    <div class="setting">
+      <label for="targetLang">Default Target Language</label>
+      <select id="targetLang">
+        <option value="en">English</option>
+        <option value="es">Spanish</option>
+        <option value="fr">French</option>
+        <option value="de">German</option>
+        <option value="it">Italian</option>
+        <option value="pt">Portuguese</option>
+        <option value="ru">Russian</option>
+        <option value="ja">Japanese</option>
+        <option value="ko">Korean</option>
+        <option value="zh-CN">Chinese (Simplified)</option>
+        <option value="zh-TW">Chinese (Traditional)</option>
+        <option value="ar">Arabic</option>
+        <option value="hi">Hindi</option>
+        <option value="nl">Dutch</option>
+        <option value="pl">Polish</option>
+        <option value="tr">Turkish</option>
+        <option value="vi">Vietnamese</option>
+        <option value="th">Thai</option>
+        <option value="id">Indonesian</option>
+        <option value="uk">Ukrainian</option>
+        <option value="cs">Czech</option>
+        <option value="el">Greek</option>
+        <option value="he">Hebrew</option>
+        <option value="sv">Swedish</option>
+        <option value="da">Danish</option>
+        <option value="fi">Finnish</option>
+        <option value="no">Norwegian</option>
+      </select>
+    </div>
+  </div>
+  
+  <div class="section">
+    <h2>Features</h2>
+    
+    <div class="toggle-setting">
+      <div>
+        <div class="label">Hover to translate</div>
+        <div class="hint">Show translation when hovering over paragraphs</div>
+      </div>
+      <label class="toggle">
+        <input type="checkbox" id="hoverEnabled" checked>
+        <span class="toggle-slider"></span>
+      </label>
+    </div>
+    
+    <div class="toggle-setting">
+      <div>
+        <div class="label">Bilingual mode</div>
+        <div class="hint">Show both original and translated text on page translation</div>
+      </div>
+      <label class="toggle">
+        <input type="checkbox" id="bilingual" checked>
+        <span class="toggle-slider"></span>
+      </label>
+    </div>
+    
+    <div class="setting" style="margin-top: 12px;">
+      <label for="hoverDelay">Hover delay (milliseconds)</label>
+      <input type="number" id="hoverDelay" value="300" min="100" max="2000" step="50">
+      <div class="hint">Time to wait before showing translation (lower = faster)</div>
+    </div>
+  </div>
+  
+  <span class="saved" id="saved">Settings saved</span>
+  
+  <script>
+    (async function() {
+      const targetLangEl = document.getElementById('targetLang');
+      const hoverEnabledEl = document.getElementById('hoverEnabled');
+      const bilingualEl = document.getElementById('bilingual');
+      const hoverDelayEl = document.getElementById('hoverDelay');
+      const savedEl = document.getElementById('saved');
+      
+      await loadSettings();
+      
+      targetLangEl.addEventListener('change', debounce(saveSettings, 300));
+      hoverEnabledEl.addEventListener('change', saveSettings);
+      bilingualEl.addEventListener('change', saveSettings);
+      hoverDelayEl.addEventListener('change', debounce(saveSettings, 300));
+      
+      async function loadSettings() {
+        try {
+          const settings = await chrome.runtime.sendMessage({ action: 'getSettings' });
+          if (settings) {
+            targetLangEl.value = settings.targetLang || 'en';
+            hoverEnabledEl.checked = settings.hoverEnabled !== false;
+            bilingualEl.checked = settings.bilingual !== false;
+            hoverDelayEl.value = settings.hoverDelay || 300;
+          }
+        } catch (e) {
+          console.error('Failed to load settings:', e);
+        }
+      }
+      
+      async function saveSettings() {
+        const settings = {
+          targetLang: targetLangEl.value,
+          hoverEnabled: hoverEnabledEl.checked,
+          bilingual: bilingualEl.checked,
+          hoverDelay: parseInt(hoverDelayEl.value, 10) || 300
+        };
+        
+        try {
+          await chrome.runtime.sendMessage({
+            action: 'saveSettings',
+            settings
+          });
+          
+          savedEl.classList.add('show');
+          setTimeout(() => savedEl.classList.remove('show'), 1500);
+        } catch (e) {
+          console.error('Failed to save settings:', e);
+        }
+      }
+      
+      function debounce(fn, delay) {
+        let timeout;
+        return function(...args) {
+          clearTimeout(timeout);
+          timeout = setTimeout(() => fn.apply(this, args), delay);
+        };
+      }
+    })();
+  </script>
+</body>
+</html>
